@@ -41,7 +41,7 @@ export default function SourceTypeSelector({ sourceTypes }) {
 
             <Button onClick={getFormHandler} variant="info">Get Form</Button>
 
-            < FormTemplate formTemplate={formTemplate} />
+            <FormTemplate formTemplate={formTemplate} />
         </>
 
     );
