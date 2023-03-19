@@ -1,22 +1,26 @@
 import SourceTypeSelector from "./SourceTypeSelector";
-import Form from "./Form"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function App() {
 
-    const url = "https://localhost:7043/api/FormTemplates/SourceTypes"
+    const getSourceTypesUrl = "https://localhost:7043/api/FormTemplates/SourceTypes"
 
     const [sourceTypes, setSourceTypes] = useState([]);
 
-    const fetchAllSourceTypes = fetch(url)
-        .then(response => response.json())
-        .then(data => setSourceTypes(data))
+    function getAllSourceTypes() {
+        fetch(getSourceTypesUrl)
+            .then(response => response.json())
+            .then(data => setSourceTypes(data))
+    }
+
+    useEffect(() => {
+        getAllSourceTypes()
+    }, [])
 
     return (
         <>
             <SourceTypeSelector sourceTypes={sourceTypes} />
             <br /> <br />
-            <Form />
         </>
     )
 }
