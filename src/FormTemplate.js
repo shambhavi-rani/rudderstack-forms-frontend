@@ -1,3 +1,4 @@
+import Alert from 'react-bootstrap/Alert';
 import React, { Component, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -6,6 +7,8 @@ import ErrorMessage from './ErrorMessage';
 export default function FormTemplate({ formTemplate }) {
 
     const [errors, setErrors] = useState([]);
+    const [successMsg, setsuccessMsg] = useState("");
+    const [showSuccessMsg, setShowSuccessMsg] = useState(true);
     const fieldsKeys = Object.keys(formTemplate.fields);
 
     function getFieldDataFromForm() {
@@ -62,7 +65,7 @@ export default function FormTemplate({ formTemplate }) {
 
     function submitFormHandler(e) {
         e.preventDefault();
-
+        setShowSuccessMsg(true);
         const fieldData = getFieldDataFromForm();
 
         const errorList = populateErrors(fieldData, formTemplate.fields);
@@ -76,11 +79,13 @@ export default function FormTemplate({ formTemplate }) {
             userData: fieldData
         };
         createSource(formData);
+        setsuccessMsg("Source successfully created!");
     }
 
     return (
         <Container>
             {errors.length != 0 && <ErrorMessage errors={errors} />}
+            {successMsg != "" && showSuccessMsg && <Alert key="success" variant="success" onClose={() => setShowSuccessMsg(false)} dismissible>{successMsg}</Alert>}
             <form id="my_form">
                 <br />
                 <h2>{formTemplate.type}</h2>
@@ -126,10 +131,8 @@ export default function FormTemplate({ formTemplate }) {
                         } 
                     })
                 }
-
                 {formTemplate.type != undefined && <Button variant="warning" type="submit" onClick={submitFormHandler}>Create Source</Button>}
             </form>
-            
         </Container>
     )
 }
